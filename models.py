@@ -50,25 +50,10 @@ class Inquiry(db.Model):
 class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     property_name = db.Column(db.String(200), nullable=False)
-    transaction_type = db.Column(db.String(50), nullable=False)
+    transaction_type = db.Column(db.String(50), nullable=False)  # 'lease' or 'sale'
     square_feet = db.Column(db.Integer, nullable=False)
     transaction_date = db.Column(db.DateTime, nullable=False)
     location = db.Column(db.String(200), nullable=False)
     image_url = db.Column(db.String(500), nullable=False)
     description = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-class PropertyAlert(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), nullable=False)
-    name = db.Column(db.String(100), nullable=False)
-    business_type = db.Column(db.String(100))
-    min_square_feet = db.Column(db.Integer)
-    max_square_feet = db.Column(db.Integer)
-    min_price = db.Column(db.Float)
-    max_price = db.Column(db.Float)
-    location_preferences = db.Column(db.JSON)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    is_active = db.Column(db.Boolean, default=True)
-    alert_frequency = db.Column(db.String(20), default='daily')  # daily, weekly, immediate
-    last_alert_sent = db.Column(db.DateTime)
