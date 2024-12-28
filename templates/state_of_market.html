@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}State of the Market - SLC Industrial Properties{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <h1 class="mb-4">State of the Market</h1>
+    
+    <!-- Market Overview -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="h4">Salt Lake City Industrial Market Overview</h2>
+            <p class="lead">Q4 2024 Market Insights</p>
+            <div class="row mt-4">
+                <div class="col-md-3 mb-3">
+                    <div class="border rounded p-3 text-center">
+                        <h3 class="h5">Vacancy Rate</h3>
+                        <p class="display-6 text-primary mb-0">3.2%</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="border rounded p-3 text-center">
+                        <h3 class="h5">Avg. Lease Rate</h3>
+                        <p class="display-6 text-primary mb-0">$1.05</p>
+                        <small>PSF/month (NNN)</small>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="border rounded p-3 text-center">
+                        <h3 class="h5">Under Construction</h3>
+                        <p class="display-6 text-primary mb-0">2.8M</p>
+                        <small>Square Feet</small>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="border rounded p-3 text-center">
+                        <h3 class="h5">Net Absorption</h3>
+                        <p class="display-6 text-primary mb-0">850K</p>
+                        <small>Square Feet</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Market Trends -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h4 mb-4">Market Trends</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-4">
+                            <h3 class="h5">Strong Industrial Demand</h3>
+                            <p>The Salt Lake City industrial market continues to show robust growth, driven by strategic location and strong economic fundamentals.</p>
+                        </li>
+                        <li class="mb-4">
+                            <h3 class="h5">E-commerce Impact</h3>
+                            <p>Rising e-commerce adoption is driving demand for last-mile distribution facilities and warehousing space.</p>
+                        </li>
+                        <li>
+                            <h3 class="h5">Development Pipeline</h3>
+                            <p>Several major industrial developments are underway, particularly in the Northwest quadrant.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h4 mb-4">Key Highlights</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Record-low vacancy rates</li>
+                        <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Strong leasing activity</li>
+                        <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Rising rental rates</li>
+                        <li class="mb-3"><i class="fas fa-check text-success me-2"></i> New construction pipeline</li>
+                        <li><i class="fas fa-check text-success me-2"></i> Increased investor interest</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form Section -->
+    <div class="card mt-5">
+        <div class="card-body">
+            <h2 class="h4 mb-4">Stay Updated with Market Insights</h2>
+            <form method="POST" class="needs-validation" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Full Name *</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                        <div class="invalid-feedback">Please provide your name.</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="company" class="form-label">Company *</label>
+                        <input type="text" class="form-control" id="company" name="company" required>
+                        <div class="invalid-feedback">Please provide your company name.</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="phone" class="form-label">Phone Number *</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                        <div class="invalid-feedback">Please provide your phone number.</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Email Address *</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="invalid-feedback">Please provide a valid email address.</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="entity_type" class="form-label">Entity Type *</label>
+                    <select class="form-select" id="entity_type" name="entity_type" required>
+                        <option value="">Select Entity Type</option>
+                        <option value="business_owner">Business Owner</option>
+                        <option value="principal">Principal</option>
+                        <option value="broker">Broker</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <div class="invalid-feedback">Please select your entity type.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Subscribe to Market Updates</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

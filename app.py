@@ -131,9 +131,14 @@ def transactions():
     transactions = Transaction.query.order_by(Transaction.transaction_date.desc()).all()
     return render_template('transactions.html', transactions=transactions)
 
-@app.route('/market-updates')
-def market_updates():
-    return render_template('market_updates.html')
+@app.route('/state-of-market')
+def state_of_market():
+    return render_template('state_of_market.html')
+
+@app.route('/insights')
+def insights():
+    return render_template('insights.html')
+
 
 def init_sample_data():
     """Initialize sample data for the application"""
@@ -157,13 +162,13 @@ def init_sample_data():
                 floorplan_url="https://example.com/floorplans/broadbent.pdf",
                 available_space="Suite A: 5,000 sq ft\nSuite B: 7,500 sq ft\nSuite C: 10,000 sq ft",
                 business_type="manufacturing",
-                ceiling_height=32.0,  # Updated ceiling height
-                loading_docks=12,     # Updated loading docks
-                power_capacity="3000A, 480/277V", # Updated power
+                ceiling_height=32.0,  
+                loading_docks=12,     
+                power_capacity="3000A, 480/277V", 
                 column_spacing="40' x 40'",
                 year_built=2015,
                 is_featured=True,
-                listing_type='lease'  # Changed to lease
+                listing_type='lease'  
             ),
             Property(
                 title="Redwood Business Park",
@@ -201,13 +206,13 @@ def init_sample_data():
                 floorplan_url="https://example.com/floorplans/sandy.pdf",
                 available_space="Building A: 25,000 sq ft\nBuilding B: 30,000 sq ft",
                 business_type="distribution",
-                ceiling_height=32.0,  # Updated ceiling height
-                loading_docks=12,     # Updated loading docks
-                power_capacity="3000A, 480/277V", # Updated power
+                ceiling_height=32.0,  
+                loading_docks=12,     
+                power_capacity="3000A, 480/277V", 
                 column_spacing="45' x 45'",
                 year_built=2020,
                 is_featured=True,
-                listing_type='lease'  # Changed to lease
+                listing_type='lease'  
             )
         ]
         db.session.bulk_save_objects(sample_properties)
