@@ -104,7 +104,7 @@ def transactions():
 
 @app.route('/state-of-market')
 def state_of_market():
-    return render_template('state-of_market.html')
+    return render_template('state-of-market.html')
 
 @app.route('/insights')
 def insights():
@@ -117,12 +117,22 @@ def init_sample_data():
     # Add sample properties if none exist
     if not Property.query.first():
         logger.info("Adding sample properties...")
+
+        # Check if image file exists
+        redwood_image_path = 'images/2850_S_Redwood_Rd_Edit.jpg'
+        if not os.path.exists(os.path.join(app.static_folder, redwood_image_path)):
+            logger.error(f"Image file not found: {redwood_image_path}")
+            redwood_image_path = "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
+        else:
+            logger.info(f"Found image file: {redwood_image_path}")
+            redwood_image_path = redwood_image_path
+
         sample_properties = [
             Property(
                 title="Broadbent Business Park",
                 description="Premium industrial space in Salt Lake City's thriving business district",
                 square_feet=150000,
-                price=1.05,  # $1.05 PSF NNN
+                price=1.05,
                 location="3607 W 2100 S Salt Lake City, UT",
                 latitude=40.72614,
                 longitude=-111.96744,
@@ -134,23 +144,23 @@ def init_sample_data():
                 floorplan_url="https://example.com/floorplans/broadbent.pdf",
                 available_space="Suite A: 5,000 sq ft\nSuite B: 7,500 sq ft\nSuite C: 10,000 sq ft",
                 business_type="manufacturing",
-                ceiling_height=32.0,  
-                loading_docks=12,     
-                power_capacity="3000A, 480/277V", 
+                ceiling_height=32.0,
+                loading_docks=12,
+                power_capacity="3000A, 480/277V",
                 column_spacing="40' x 40'",
                 year_built=2015,
                 is_featured=True,
-                listing_type='lease'  
+                listing_type='lease'
             ),
             Property(
                 title="Redwood Business Park",
                 description="Modern industrial complex with excellent accessibility",
                 square_feet=200000,
-                price=1.05,  # $1.05 PSF NNN
+                price=1.05,
                 location="2850 S Redwood Rd West Valley, UT",
                 latitude=40.71643,
                 longitude=-111.93912,
-                image_url=url_for('static', filename='images/2850_S_Redwood_Rd_Edit.jpg'),
+                image_url=redwood_image_path,
                 additional_images=[
                     "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
                     "https://images.unsplash.com/photo-1580674684081-7617fbf3d745"
@@ -170,7 +180,7 @@ def init_sample_data():
                 title="Sandy Business Park",
                 description="State-of-the-art business park in Sandy's growing commercial district",
                 square_feet=175000,
-                price=1.05,  # $1.05 PSF NNN
+                price=1.05,
                 location="9520 S 500 W Sandy, UT",
                 latitude=40.58764,
                 longitude=-111.90606,
@@ -182,13 +192,13 @@ def init_sample_data():
                 floorplan_url="https://example.com/floorplans/sandy.pdf",
                 available_space="Building A: 25,000 sq ft\nBuilding B: 30,000 sq ft",
                 business_type="distribution",
-                ceiling_height=32.0,  
-                loading_docks=12,     
-                power_capacity="3000A, 480/277V", 
+                ceiling_height=32.0,
+                loading_docks=12,
+                power_capacity="3000A, 480/277V",
                 column_spacing="45' x 45'",
                 year_built=2020,
                 is_featured=True,
-                listing_type='lease'  
+                listing_type='lease'
             )
         ]
         db.session.bulk_save_objects(sample_properties)
