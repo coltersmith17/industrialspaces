@@ -1,10 +1,9 @@
 import os
 import logging
-from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
+from flask import Flask, render_template, request, flash, redirect, url_for
 from datetime import datetime
 from database import db
-import random
-from datetime import datetime, timedelta
+import shutil
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -94,8 +93,8 @@ def for_lease():
 def for_sale():
     properties = Property.query.filter_by(listing_type='sale').all()
     return render_template('properties.html', 
-                         page_title='Properties For Sale',
-                         properties=properties)
+                         properties=properties,
+                         page_title='Properties For Sale')
 
 @app.route('/transactions')
 def transactions():
@@ -114,18 +113,31 @@ def init_sample_data():
     """Initialize sample data for the application"""
     logger.info("Initializing sample data...")
 
+    # Set up static image directory if it doesn't exist
+    static_img_dir = os.path.join(app.static_folder, 'images')
+    if not os.path.exists(static_img_dir):
+        os.makedirs(static_img_dir)
+        logger.info(f"Created static images directory: {static_img_dir}")
+
+    # Copy the Redwood Business Park image from attached assets to static folder
+    source_image = 'attached_assets/2850 S Redwood Rd Edit.jpg'
+    dest_image = os.path.join(static_img_dir, '2850_S_Redwood_Rd_Edit.jpg')
+
+    try:
+        if os.path.exists(source_image):
+            shutil.copy2(source_image, dest_image)
+            logger.info(f"Successfully copied image from {source_image} to {dest_image}")
+            redwood_image_url = '/static/images/2850_S_Redwood_Rd_Edit.jpg'
+        else:
+            logger.error(f"Source image not found: {source_image}")
+            redwood_image_url = "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
+    except Exception as e:
+        logger.error(f"Error copying image: {str(e)}")
+        redwood_image_url = "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
+
     # Add sample properties if none exist
     if not Property.query.first():
         logger.info("Adding sample properties...")
-
-        # Check if image file exists
-        redwood_image_path = 'images/2850_S_Redwood_Rd_Edit.jpg'
-        if not os.path.exists(os.path.join(app.static_folder, redwood_image_path)):
-            logger.error(f"Image file not found: {redwood_image_path}")
-            redwood_image_path = "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
-        else:
-            logger.info(f"Found image file: {redwood_image_path}")
-            redwood_image_path = redwood_image_path
 
         sample_properties = [
             Property(
@@ -160,7 +172,7 @@ def init_sample_data():
                 location="2850 S Redwood Rd West Valley, UT",
                 latitude=40.71643,
                 longitude=-111.93912,
-                image_url=redwood_image_path,
+                image_url=redwood_image_url,
                 additional_images=[
                     "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
                     "https://images.unsplash.com/photo-1580674684081-7617fbf3d745"
