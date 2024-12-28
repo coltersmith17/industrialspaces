@@ -64,8 +64,11 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="phone" name="phone">
+                            <label for="phone" class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                            <div class="invalid-feedback">
+                                Please provide your phone number.
+                            </div>
                         </div>
 
                         <div class="mb-3">
@@ -96,7 +99,7 @@
     <!-- Map Section -->
     <div class="card mb-5">
         <div class="card-body p-0">
-            <div id="propertyMap" style="height: 400px;" data-lat="40.7128" data-lng="-74.0060" data-title="Our Office"></div>
+            <div id="propertyMap" style="height: 400px;" data-lat="40.6672" data-lng="-111.8311" data-title="Our Office"></div>
         </div>
     </div>
 </div>
