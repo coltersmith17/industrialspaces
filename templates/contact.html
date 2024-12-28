@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Industrial Properties{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <!-- Contact Header -->
+    <div class="text-center mb-5">
+        <h1>Contact Us</h1>
+        <p class="lead">Get in touch with our expert team to discuss your industrial property needs</p>
+    </div>
+
+    <div class="row">
+        <!-- Contact Information -->
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Our Office</h4>
+                    <div class="mb-4">
+                        <h5><i class="fas fa-map-marker-alt text-primary me-2"></i> Address</h5>
+                        <p class="ms-4">
+                            123 Business Street<br>
+                            Suite 456<br>
+                            New York, NY 10001
+                        </p>
+                    </div>
+                    <div class="mb-4">
+                        <h5><i class="fas fa-phone text-primary me-2"></i> Phone</h5>
+                        <p class="ms-4">
+                            Main: (555) 123-4567<br>
+                            Toll-free: (800) 987-6543
+                        </p>
+                    </div>
+                    <div class="mb-4">
+                        <h5><i class="fas fa-envelope text-primary me-2"></i> Email</h5>
+                        <p class="ms-4">
+                            info@industrialproperties.com<br>
+                            sales@industrialproperties.com
+                        </p>
+                    </div>
+                    <div class="mb-4">
+                        <h5><i class="fas fa-clock text-primary me-2"></i> Business Hours</h5>
+                        <p class="ms-4">
+                            Monday - Friday: 9:00 AM - 6:00 PM<br>
+                            Saturday: 10:00 AM - 2:00 PM<br>
+                            Sunday: Closed
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-md-8 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Send Us a Message</h4>
+                    <form method="POST" class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="invalid-feedback">
+                                    Please provide your name.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid email address.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" name="phone">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <select class="form-select" id="subject" name="subject">
+                                <option value="general">General Inquiry</option>
+                                <option value="property">Property Information</option>
+                                <option value="viewing">Schedule Viewing</option>
+                                <option value="lease">Lease Information</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="message" class="form-label">Message *</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            <div class="invalid-feedback">
+                                Please provide your message.
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="card mb-5">
+        <div class="card-body p-0">
+            <div id="propertyMap" style="height: 400px;" data-lat="40.7128" data-lng="-74.0060" data-title="Our Office"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+});
+</script>
+{% endblock %}

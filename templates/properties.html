@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Available Properties{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <h1 class="mb-4">Available Properties</h1>
+    
+    <!-- Filter Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form id="filterForm" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Min Price</label>
+                    <input type="number" class="form-control" id="minPrice" placeholder="Min Price">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Max Price</label>
+                    <input type="number" class="form-control" id="maxPrice" placeholder="Max Price">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Min Size (sq ft)</label>
+                    <input type="number" class="form-control" id="minSize" placeholder="Min Size">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Properties Map -->
+    <div id="propertyMap" class="mb-4"></div>
+
+    <!-- Properties Grid -->
+    <div class="row">
+        {% for property in properties %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card property-card h-100" 
+                 data-price="{{ property.price }}"
+                 data-size="{{ property.square_feet }}">
+                <img src="{{ property.image_url }}" class="card-img-top property-image" alt="{{ property.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ property.title }}</h5>
+                    <p class="card-text">{{ property.description[:150] }}...</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-ruler-combined"></i> {{ "{:,.0f}".format(property.square_feet) }} sq ft</li>
+                        <li><i class="fas fa-map-marker-alt"></i> {{ property.location }}</li>
+                        <li><i class="fas fa-dollar-sign"></i> {{ "{:,.0f}".format(property.price) }}</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="{{ url_for('property_detail', id=property.id) }}" class="btn btn-outline-primary w-100">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const properties = [
+        {% for property in properties %}
+        {
+            id: {{ property.id }},
+            title: "{{ property.title }}",
+            location: "{{ property.location }}",
+            lat: {{ property.latitude }},
+            lng: {{ property.longitude }}
+        },
+        {% endfor %}
+    ];
+    initPropertiesMap(properties);
+});
+</script>
+{% endblock %}

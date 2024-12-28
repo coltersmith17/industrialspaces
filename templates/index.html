@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Industrial Properties - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="background-image: url('https://images.unsplash.com/photo-1532885297236-290e7dd12d8b');">
+    <div class="hero-overlay"></div>
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-md-8 hero-content text-center mx-auto">
+                <h1 class="display-4 fw-bold mb-4">Premium Industrial Properties</h1>
+                <p class="lead mb-4">Discover exceptional industrial spaces for your business needs</p>
+                <a href="{{ url_for('properties') }}" class="btn btn-primary btn-lg">View Properties</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Properties -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Properties</h2>
+        <div class="row">
+            {% for property in properties %}
+            <div class="col-md-4 mb-4">
+                <div class="card property-card h-100">
+                    <img src="{{ property.image_url }}" class="card-img-top property-image" alt="{{ property.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ property.title }}</h5>
+                        <p class="card-text">{{ property.description[:100] }}...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-primary">${{ "{:,.0f}".format(property.price) }}</span>
+                            <span>{{ "{:,.0f}".format(property.square_feet) }} sq ft</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <a href="{{ url_for('property_detail', id=property.id) }}" class="btn btn-outline-primary w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Our Services</h2>
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                <h4>Property Search</h4>
+                <p>Find the perfect industrial property for your business needs</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <i class="fas fa-handshake fa-3x text-primary mb-3"></i>
+                <h4>Lease Negotiation</h4>
+                <p>Expert negotiation services for optimal lease terms</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                <h4>Market Analysis</h4>
+                <p>Comprehensive market analysis and property valuations</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Preview -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa" class="img-fluid rounded" alt="Commercial real estate agent">
+            </div>
+            <div class="col-md-6">
+                <h2 class="mb-4">Expert Industrial Real Estate Solutions</h2>
+                <p class="lead">With years of experience in industrial real estate, we provide comprehensive solutions for businesses seeking the perfect space.</p>
+                <a href="{{ url_for('about') }}" class="btn btn-primary">Learn More About Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

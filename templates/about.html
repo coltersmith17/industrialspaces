@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Industrial Properties{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <h1 class="mb-4">Your Trusted Partner in Industrial Real Estate</h1>
+            <p class="lead">With decades of combined experience, we specialize in connecting businesses with their ideal industrial spaces. Our expertise spans warehouses, distribution centers, and manufacturing facilities.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa" class="img-fluid rounded" alt="Commercial real estate agent">
+        </div>
+    </div>
+
+    <!-- Our Values -->
+    <section class="my-5">
+        <h2 class="text-center mb-4">Our Values</h2>
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="p-4">
+                    <i class="fas fa-handshake fa-3x text-primary mb-3"></i>
+                    <h4>Integrity</h4>
+                    <p>We believe in transparent, honest relationships with our clients, ensuring trust in every transaction.</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="p-4">
+                    <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                    <h4>Excellence</h4>
+                    <p>Our commitment to excellence drives us to deliver exceptional results for every client.</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="p-4">
+                    <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                    <h4>Client Focus</h4>
+                    <p>Your success is our priority. We work tirelessly to understand and meet your specific needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise -->
+    <section class="bg-light py-5 rounded">
+        <div class="container">
+            <h2 class="text-center mb-4">Our Expertise</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-warehouse text-primary fa-2x me-3 mt-1"></i>
+                        <div>
+                            <h4>Property Types</h4>
+                            <ul class="list-unstyled">
+                                <li>✓ Distribution Centers</li>
+                                <li>✓ Manufacturing Facilities</li>
+                                <li>✓ Warehouses</li>
+                                <li>✓ Logistics Hubs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-tools text-primary fa-2x me-3 mt-1"></i>
+                        <div>
+                            <h4>Services</h4>
+                            <ul class="list-unstyled">
+                                <li>✓ Property Search & Selection</li>
+                                <li>✓ Lease Negotiation</li>
+                                <li>✓ Market Analysis</li>
+                                <li>✓ Property Valuation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="my-5">
+        <h2 class="text-center mb-4">Our Leadership Team</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user-circle fa-4x text-primary mb-3"></i>
+                        <h5 class="card-title">John Smith</h5>
+                        <p class="card-text text-muted">Managing Director</p>
+                        <p class="card-text">20+ years of experience in industrial real estate</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user-circle fa-4x text-primary mb-3"></i>
+                        <h5 class="card-title">Sarah Johnson</h5>
+                        <p class="card-text text-muted">Head of Operations</p>
+                        <p class="card-text">15+ years of property management expertise</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user-circle fa-4x text-primary mb-3"></i>
+                        <h5 class="card-title">Michael Chen</h5>
+                        <p class="card-text text-muted">Senior Broker</p>
+                        <p class="card-text">12+ years of industrial leasing experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="text-center my-5">
+        <h2 class="mb-4">Ready to Find Your Perfect Industrial Space?</h2>
+        <p class="lead mb-4">Let us help you discover the ideal property for your business needs.</p>
+        <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">Contact Us Today</a>
+    </section>
+</div>
+{% endblock %}
