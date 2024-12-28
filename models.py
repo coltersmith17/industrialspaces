@@ -17,15 +17,14 @@ class Property(db.Model):
     available_space = db.Column(db.Text)  # Details about available space
     is_featured = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    # New fields for business type recommendation
-    business_type = db.Column(db.String(100))  # e.g., "manufacturing", "warehousing", "distribution"
-    ceiling_height = db.Column(db.Float)  # in feet
+    listing_type = db.Column(db.String(50))  # 'sale' or 'lease'
+    business_type = db.Column(db.String(100))
+    ceiling_height = db.Column(db.Float)
     loading_docks = db.Column(db.Integer)
-    power_capacity = db.Column(db.String(50))  # e.g., "2000A, 480/277V"
-    column_spacing = db.Column(db.String(50))  # e.g., "40' x 40'"
+    power_capacity = db.Column(db.String(50))
+    column_spacing = db.Column(db.String(50))
     year_built = db.Column(db.Integer)
-    property_features = db.Column(db.JSON)  # Additional features as JSON
+    property_features = db.Column(db.JSON)
 
 class BusinessTypePreference(db.Model):
     id = db.Column(db.Integer, primary_key=True)

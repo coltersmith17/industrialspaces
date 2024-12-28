@@ -109,6 +109,21 @@ def get_recommendations():
         ]
     })
 
+@app.route('/for-lease')
+def for_lease():
+    properties = Property.query.filter_by(listing_type='lease').all()
+    return render_template('properties.html', 
+                         properties=properties,
+                         page_title='Properties For Lease')
+
+@app.route('/for-sale')
+def for_sale():
+    properties = Property.query.filter_by(listing_type='sale').all()
+    return render_template('properties.html', 
+                         page_title='Properties For Sale',
+                         properties=properties)
+
+
 # Initialize database
 with app.app_context():
     db.create_all()
@@ -126,7 +141,7 @@ with app.app_context():
                 longitude=-111.96744,
                 image_url="https://images.unsplash.com/photo-1565077744449-04961a45ec61",
                 additional_images=["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-                                "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
+                                    "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
                 floorplan_url="https://example.com/floorplans/broadbent.pdf",
                 available_space="Suite A: 5,000 sq ft\nSuite B: 7,500 sq ft\nSuite C: 10,000 sq ft",
                 business_type="manufacturing",
@@ -135,7 +150,8 @@ with app.app_context():
                 power_capacity="2000A, 480/277V",
                 column_spacing="40' x 40'",
                 year_built=2015,
-                is_featured=True
+                is_featured=True,
+                listing_type='sale' #Added listing type
             ),
             Property(
                 title="Redwood Business Park",
@@ -147,7 +163,7 @@ with app.app_context():
                 longitude=-111.93912,
                 image_url="https://images.unsplash.com/photo-1664382953403-fc1ac77073a0",
                 additional_images=["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-                                "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
+                                    "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
                 floorplan_url="https://example.com/floorplans/redwood.pdf",
                 available_space="Unit 1: 15,000 sq ft\nUnit 2: 20,000 sq ft",
                 business_type="warehousing",
@@ -156,7 +172,8 @@ with app.app_context():
                 power_capacity="3000A, 480/277V",
                 column_spacing="50' x 50'",
                 year_built=2018,
-                is_featured=True
+                is_featured=True,
+                listing_type='lease' #Added listing type
             ),
             Property(
                 title="Sandy Business Park",
@@ -168,7 +185,7 @@ with app.app_context():
                 longitude=-111.90606,
                 image_url="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
                 additional_images=["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-                                "https://images.unsplash.com/photo-1664382953403-fc1ac77073a0"],
+                                    "https://images.unsplash.com/photo-1664382953403-fc1ac77073a0"],
                 floorplan_url="https://example.com/floorplans/sandy.pdf",
                 available_space="Building A: 25,000 sq ft\nBuilding B: 30,000 sq ft",
                 business_type="distribution",
@@ -177,7 +194,8 @@ with app.app_context():
                 power_capacity="2500A, 480/277V",
                 column_spacing="45' x 45'",
                 year_built=2020,
-                is_featured=True
+                is_featured=True,
+                listing_type='sale' #Added listing type
             )
         ]
         db.session.bulk_save_objects(sample_properties)
