@@ -5,26 +5,31 @@
 {% block content %}
 <div class="container mt-5 pt-5">
     <h1 class="mb-4">Available Properties</h1>
-    
+
     <!-- Filter Form -->
     <div class="card mb-4">
         <div class="card-body">
             <form id="filterForm" class="row g-3">
                 <div class="col-md-3">
-                    <label class="form-label">Min Price</label>
-                    <input type="number" class="form-control" id="minPrice" placeholder="Min Price">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Max Price</label>
-                    <input type="number" class="form-control" id="maxPrice" placeholder="Max Price">
+                    <label class="form-label">Business Type</label>
+                    <select class="form-select" id="businessType" name="business_type">
+                        <option value="">All Types</option>
+                        <option value="manufacturing" {% if business_type == 'manufacturing' %}selected{% endif %}>Manufacturing</option>
+                        <option value="warehousing" {% if business_type == 'warehousing' %}selected{% endif %}>Warehousing</option>
+                        <option value="distribution" {% if business_type == 'distribution' %}selected{% endif %}>Distribution</option>
+                    </select>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Min Size (sq ft)</label>
-                    <input type="number" class="form-control" id="minSize" placeholder="Min Size">
+                    <input type="number" class="form-control" id="minSize" name="min_square_feet" placeholder="Min Size">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Max Size (sq ft)</label>
+                    <input type="number" class="form-control" id="maxSize" name="max_square_feet" placeholder="Max Size">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">&nbsp;</label>
-                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                    <button type="submit" class="btn btn-primary w-100">Find Properties</button>
                 </div>
             </form>
         </div>
@@ -43,9 +48,15 @@
                 <img src="{{ property.image_url }}" class="card-img-top property-image" alt="{{ property.title }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ property.title }}</h5>
+                    {% if property.business_type %}
+                    <span class="badge bg-info mb-2">{{ property.business_type|title }}</span>
+                    {% endif %}
                     <p class="card-text">{{ property.description[:150] }}...</p>
                     <ul class="list-unstyled">
                         <li><i class="fas fa-ruler-combined"></i> {{ "{:,.0f}".format(property.square_feet) }} sq ft</li>
+                        <li><i class="fas fa-arrows-alt-v"></i> Ceiling Height: {{ property.ceiling_height }}ft</li>
+                        <li><i class="fas fa-truck-loading"></i> Loading Docks: {{ property.loading_docks }}</li>
+                        <li><i class="fas fa-bolt"></i> Power: {{ property.power_capacity }}</li>
                         <li><i class="fas fa-map-marker-alt"></i> {{ property.location }}</li>
                         <li><i class="fas fa-dollar-sign"></i> {{ "{:,.0f}".format(property.price) }}</li>
                     </ul>
@@ -73,6 +84,22 @@ document.addEventListener('DOMContentLoaded', function() {
         {% endfor %}
     ];
     initPropertiesMap(properties);
+
+    // Update form submission to include business type
+    const form = document.getElementById('filterForm');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const businessType = document.getElementById('businessType').value;
+        const minSize = document.getElementById('minSize').value;
+        const maxSize = document.getElementById('maxSize').value;
+
+        let url = new URL(window.location.href);
+        url.searchParams.set('business_type', businessType);
+        if (minSize) url.searchParams.set('min_square_feet', minSize);
+        if (maxSize) url.searchParams.set('max_square_feet', maxSize);
+
+        window.location.href = url.toString();
+    });
 });
 </script>
 {% endblock %}

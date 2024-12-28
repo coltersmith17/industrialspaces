@@ -1,4 +1,4 @@
-from app import db
+from database import db
 from datetime import datetime
 
 class Property(db.Model):
@@ -18,10 +18,32 @@ class Property(db.Model):
     is_featured = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # New fields for business type recommendation
+    business_type = db.Column(db.String(100))  # e.g., "manufacturing", "warehousing", "distribution"
+    ceiling_height = db.Column(db.Float)  # in feet
+    loading_docks = db.Column(db.Integer)
+    power_capacity = db.Column(db.String(50))  # e.g., "2000A, 480/277V"
+    column_spacing = db.Column(db.String(50))  # e.g., "40' x 40'"
+    year_built = db.Column(db.Integer)
+    property_features = db.Column(db.JSON)  # Additional features as JSON
+
+class BusinessTypePreference(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    business_type = db.Column(db.String(100), nullable=False)
+    min_square_feet = db.Column(db.Integer)
+    max_square_feet = db.Column(db.Integer)
+    min_ceiling_height = db.Column(db.Float)
+    min_loading_docks = db.Column(db.Integer)
+    power_requirements = db.Column(db.String(50))
+    preferred_features = db.Column(db.JSON)
+    importance_weights = db.Column(db.JSON)  # Weights for different features
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
 class Inquiry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(20))
     message = db.Column(db.Text, nullable=False)
+    business_type = db.Column(db.String(100))  # New field for business type
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
