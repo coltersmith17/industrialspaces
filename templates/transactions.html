@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Recent Transactions - SLC Industrial Properties{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <h1 class="mb-4">Recent Transactions</h1>
+    
+    <!-- Transactions Grid -->
+    <div class="row">
+        {% for transaction in transactions %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ transaction.image_url }}" class="card-img-top" alt="{{ transaction.property_name }}" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ transaction.property_name }}</h5>
+                    <p class="card-text">
+                        <strong>Type:</strong> {{ transaction.transaction_type|title }}<br>
+                        <strong>Size:</strong> {{ "{:,.0f}".format(transaction.square_feet) }} SF<br>
+                        <strong>Location:</strong> {{ transaction.location }}<br>
+                        <strong>Date:</strong> {{ transaction.transaction_date.strftime('%B %Y') }}
+                    </p>
+                    {% if transaction.description %}
+                    <p class="card-text">{{ transaction.description }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Transaction navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}

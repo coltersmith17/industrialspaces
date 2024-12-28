@@ -3,6 +3,8 @@ import logging
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
 from datetime import datetime
 from database import db
+import random
+from datetime import datetime, timedelta
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -22,7 +24,7 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
 db.init_app(app)
 
 # Import models after db initialization
-from models import Property, Inquiry, BusinessTypePreference
+from models import Property, Inquiry, BusinessTypePreference, Transaction
 from services.recommendation_engine import PropertyRecommendationEngine
 
 # Initialize recommendation engine
@@ -122,6 +124,11 @@ def for_sale():
     return render_template('properties.html', 
                          page_title='Properties For Sale',
                          properties=properties)
+
+@app.route('/transactions')
+def transactions():
+    transactions = Transaction.query.order_by(Transaction.transaction_date.desc()).all()
+    return render_template('transactions.html', transactions=transactions)
 
 
 # Initialize database
@@ -234,4 +241,46 @@ with app.app_context():
             )
         ]
         db.session.bulk_save_objects(sample_preferences)
+        
+        # Add sample transactions if none exist
+        if not Transaction.query.first():
+            # Sample image URLs for industrial buildings
+            image_urls = [
+                "https://images.unsplash.com/photo-1565793079266-82f8e6a0073c",
+                "https://images.unsplash.com/photo-1587534774765-84ef7be11179",
+                "https://images.unsplash.com/photo-1565793079266-82f8e6a0073c"
+            ]
+
+            # Sample locations
+            locations = [
+                "West Valley City, UT",
+                "Salt Lake City, UT",
+                "Sandy, UT",
+                "Murray, UT",
+                "South Jordan, UT"
+            ]
+
+            # Generate 15 sample transactions
+            sample_transactions = []
+            for i in range(15):
+                # Random date within the last 12 months
+                days_ago = random.randint(0, 365)
+                transaction_date = datetime.now() - timedelta(days=days_ago)
+
+                # Random square footage between 1,200 and 50,000
+                square_feet = random.randint(1200, 50000)
+
+                transaction = Transaction(
+                    property_name=f"Industrial Property {i+1}",
+                    transaction_type=random.choice(['lease', 'sale']),
+                    square_feet=square_feet,
+                    transaction_date=transaction_date,
+                    location=random.choice(locations),
+                    image_url=random.choice(image_urls),
+                    description=f"Successfully completed {square_feet:,} SF industrial property transaction."
+                )
+                sample_transactions.append(transaction)
+
+            db.session.bulk_save_objects(sample_transactions)
+
         db.session.commit()

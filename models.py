@@ -11,13 +11,13 @@ class Property(db.Model):
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     image_url = db.Column(db.String(500), nullable=False)
-    additional_images = db.Column(db.JSON)  # Store multiple image URLs
-    floorplan_url = db.Column(db.String(500))  # URL for floorplan image
-    flyer_url = db.Column(db.String(500))  # URL for property flyer
-    available_space = db.Column(db.Text)  # Details about available space
+    additional_images = db.Column(db.JSON)
+    floorplan_url = db.Column(db.String(500))
+    flyer_url = db.Column(db.String(500))
+    available_space = db.Column(db.Text)
     is_featured = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    listing_type = db.Column(db.String(50))  # 'sale' or 'lease'
+    listing_type = db.Column(db.String(50))
     business_type = db.Column(db.String(100))
     ceiling_height = db.Column(db.Float)
     loading_docks = db.Column(db.Integer)
@@ -35,7 +35,7 @@ class BusinessTypePreference(db.Model):
     min_loading_docks = db.Column(db.Integer)
     power_requirements = db.Column(db.String(50))
     preferred_features = db.Column(db.JSON)
-    importance_weights = db.Column(db.JSON)  # Weights for different features
+    importance_weights = db.Column(db.JSON)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Inquiry(db.Model):
@@ -44,5 +44,16 @@ class Inquiry(db.Model):
     email = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(20))
     message = db.Column(db.Text, nullable=False)
-    business_type = db.Column(db.String(100))  # New field for business type
+    business_type = db.Column(db.String(100))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Transaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    property_name = db.Column(db.String(200), nullable=False)
+    transaction_type = db.Column(db.String(50), nullable=False)  # 'lease' or 'sale'
+    square_feet = db.Column(db.Integer, nullable=False)
+    transaction_date = db.Column(db.DateTime, nullable=False)
+    location = db.Column(db.String(200), nullable=False)
+    image_url = db.Column(db.String(500), nullable=False)
+    description = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
