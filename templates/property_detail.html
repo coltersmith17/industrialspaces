@@ -7,25 +7,59 @@
     <div class="property-details">
         <div class="row">
             <div class="col-md-8">
+                <!-- Main Property Image -->
                 <img src="{{ property.image_url }}" class="img-fluid rounded mb-4" alt="{{ property.title }}">
+
+                <!-- Additional Images Gallery -->
+                {% if property.additional_images %}
+                <div class="row mb-4">
+                    {% for image in property.additional_images %}
+                    <div class="col-md-4 mb-3">
+                        <img src="{{ image }}" class="img-fluid rounded" alt="{{ property.title }} - Additional View">
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
                 <h1 class="mb-4">{{ property.title }}</h1>
                 <div class="property-specs mb-4">
                     <span class="badge bg-primary me-2">{{ "{:,.0f}".format(property.square_feet) }} sq ft</span>
                     <span class="badge bg-secondary">${{ "{:,.0f}".format(property.price) }}</span>
                 </div>
+
+                <!-- Available Space Section -->
+                <h4 class="mt-4">Available Space</h4>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <pre class="mb-0">{{ property.available_space }}</pre>
+                    </div>
+                </div>
+
                 <h4>Description</h4>
                 <p>{{ property.description }}</p>
-                
+
+                <!-- Floorplan Section -->
+                {% if property.floorplan_url %}
+                <h4 class="mt-4">Floorplan</h4>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <a href="{{ property.floorplan_url }}" class="btn btn-outline-primary" target="_blank">
+                            <i class="fas fa-file-pdf"></i> Download Floorplan
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
                 <h4 class="mt-4">Location</h4>
                 <p><i class="fas fa-map-marker-alt"></i> {{ property.location }}</p>
-                
+
                 <div id="propertyMap" 
                      data-lat="{{ property.latitude }}"
                      data-lng="{{ property.longitude }}"
                      data-title="{{ property.title }}">
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <!-- Contact Form -->
                 <div class="card">
@@ -52,7 +86,7 @@
                         </form>
                     </div>
                 </div>
-                
+
                 <!-- Property Features -->
                 <div class="card mt-4">
                     <div class="card-body">
@@ -65,6 +99,18 @@
                         </ul>
                     </div>
                 </div>
+
+                <!-- Property Documents -->
+                {% if property.flyer_url %}
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h4 class="card-title">Property Documents</h4>
+                        <a href="{{ property.flyer_url }}" class="btn btn-outline-primary w-100" target="_blank">
+                            <i class="fas fa-file-pdf"></i> Download Property Flyer
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

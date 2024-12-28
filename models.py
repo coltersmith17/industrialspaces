@@ -11,6 +11,10 @@ class Property(db.Model):
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     image_url = db.Column(db.String(500), nullable=False)
+    additional_images = db.Column(db.JSON)  # Store multiple image URLs
+    floorplan_url = db.Column(db.String(500))  # URL for floorplan image
+    flyer_url = db.Column(db.String(500))  # URL for property flyer
+    available_space = db.Column(db.Text)  # Details about available space
     is_featured = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
