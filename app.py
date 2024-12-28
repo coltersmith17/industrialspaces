@@ -131,6 +131,10 @@ def transactions():
     transactions = Transaction.query.order_by(Transaction.transaction_date.desc()).all()
     return render_template('transactions.html', transactions=transactions)
 
+@app.route('/market-updates')
+def market_updates():
+    return render_template('market_updates.html')
+
 def init_sample_data():
     """Initialize sample data for the application"""
     logger.info("Initializing sample data...")
