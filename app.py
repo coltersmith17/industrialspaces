@@ -135,7 +135,7 @@ with app.app_context():
                 title="Broadbent Business Park",
                 description="Premium industrial space in Salt Lake City's thriving business district",
                 square_feet=150000,
-                price=2500000,
+                price=1.05,  # $1.05 PSF NNN
                 location="3607 W 2100 S Salt Lake City, UT",
                 latitude=40.72614,
                 longitude=-111.96744,
@@ -145,19 +145,19 @@ with app.app_context():
                 floorplan_url="https://example.com/floorplans/broadbent.pdf",
                 available_space="Suite A: 5,000 sq ft\nSuite B: 7,500 sq ft\nSuite C: 10,000 sq ft",
                 business_type="manufacturing",
-                ceiling_height=24.0,
-                loading_docks=8,
-                power_capacity="2000A, 480/277V",
+                ceiling_height=32.0,  # Updated ceiling height
+                loading_docks=12,     # Updated loading docks
+                power_capacity="3000A, 480/277V", # Updated power
                 column_spacing="40' x 40'",
                 year_built=2015,
                 is_featured=True,
-                listing_type='sale' #Added listing type
+                listing_type='lease'  # Changed to lease
             ),
             Property(
                 title="Redwood Business Park",
                 description="Modern industrial complex with excellent accessibility",
                 square_feet=200000,
-                price=3000000,
+                price=1.05,  # $1.05 PSF NNN
                 location="2850 S Redwood Rd West Valley, UT",
                 latitude=40.71643,
                 longitude=-111.93912,
@@ -173,13 +173,13 @@ with app.app_context():
                 column_spacing="50' x 50'",
                 year_built=2018,
                 is_featured=True,
-                listing_type='lease' #Added listing type
+                listing_type='lease'
             ),
             Property(
                 title="Sandy Business Park",
                 description="State-of-the-art business park in Sandy's growing commercial district",
                 square_feet=175000,
-                price=2750000,
+                price=1.05,  # $1.05 PSF NNN
                 location="9520 S 500 W Sandy, UT",
                 latitude=40.58764,
                 longitude=-111.90606,
@@ -189,13 +189,13 @@ with app.app_context():
                 floorplan_url="https://example.com/floorplans/sandy.pdf",
                 available_space="Building A: 25,000 sq ft\nBuilding B: 30,000 sq ft",
                 business_type="distribution",
-                ceiling_height=28.0,
-                loading_docks=16,
-                power_capacity="2500A, 480/277V",
+                ceiling_height=32.0,  # Updated ceiling height
+                loading_docks=12,     # Updated loading docks
+                power_capacity="3000A, 480/277V", # Updated power
                 column_spacing="45' x 45'",
                 year_built=2020,
                 is_featured=True,
-                listing_type='sale' #Added listing type
+                listing_type='lease'  # Changed to lease
             )
         ]
         db.session.bulk_save_objects(sample_properties)
