@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 # create the app
 app = Flask(__name__)
@@ -130,13 +131,13 @@ def transactions():
     transactions = Transaction.query.order_by(Transaction.transaction_date.desc()).all()
     return render_template('transactions.html', transactions=transactions)
 
+def init_sample_data():
+    """Initialize sample data for the application"""
+    logger.info("Initializing sample data...")
 
-# Initialize database
-with app.app_context():
-    db.create_all()
-
-    # Add sample data if database is empty
+    # Add sample properties if none exist
     if not Property.query.first():
+        logger.info("Adding sample properties...")
         sample_properties = [
             Property(
                 title="Broadbent Business Park",
@@ -148,7 +149,7 @@ with app.app_context():
                 longitude=-111.96744,
                 image_url="https://images.unsplash.com/photo-1565077744449-04961a45ec61",
                 additional_images=["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-                                    "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
+                                  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
                 floorplan_url="https://example.com/floorplans/broadbent.pdf",
                 available_space="Suite A: 5,000 sq ft\nSuite B: 7,500 sq ft\nSuite C: 10,000 sq ft",
                 business_type="manufacturing",
@@ -170,7 +171,7 @@ with app.app_context():
                 longitude=-111.93912,
                 image_url="https://images.unsplash.com/photo-1664382953403-fc1ac77073a0",
                 additional_images=["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-                                    "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
+                                  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
                 floorplan_url="https://example.com/floorplans/redwood.pdf",
                 available_space="Unit 1: 15,000 sq ft\nUnit 2: 20,000 sq ft",
                 business_type="warehousing",
@@ -192,7 +193,7 @@ with app.app_context():
                 longitude=-111.90606,
                 image_url="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
                 additional_images=["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-                                    "https://images.unsplash.com/photo-1664382953403-fc1ac77073a0"],
+                                  "https://images.unsplash.com/photo-1664382953403-fc1ac77073a0"],
                 floorplan_url="https://example.com/floorplans/sandy.pdf",
                 available_space="Building A: 25,000 sq ft\nBuilding B: 30,000 sq ft",
                 business_type="distribution",
@@ -206,8 +207,11 @@ with app.app_context():
             )
         ]
         db.session.bulk_save_objects(sample_properties)
+        logger.info("Sample properties added successfully")
 
-        # Add sample business type preferences
+    # Add sample business type preferences if none exist
+    if not BusinessTypePreference.query.first():
+        logger.info("Adding sample business type preferences...")
         sample_preferences = [
             BusinessTypePreference(
                 business_type="manufacturing",
@@ -241,46 +245,60 @@ with app.app_context():
             )
         ]
         db.session.bulk_save_objects(sample_preferences)
-        
-        # Add sample transactions if none exist
-        if not Transaction.query.first():
-            # Sample image URLs for industrial buildings
-            image_urls = [
-                "https://images.unsplash.com/photo-1565793079266-82f8e6a0073c",
-                "https://images.unsplash.com/photo-1587534774765-84ef7be11179",
-                "https://images.unsplash.com/photo-1565793079266-82f8e6a0073c"
-            ]
+        logger.info("Sample business type preferences added successfully")
 
-            # Sample locations
-            locations = [
-                "West Valley City, UT",
-                "Salt Lake City, UT",
-                "Sandy, UT",
-                "Murray, UT",
-                "South Jordan, UT"
-            ]
+    # Add sample transactions if none exist
+    if not Transaction.query.first():
+        logger.info("Adding sample transactions...")
+        # Sample image URLs for industrial buildings
+        image_urls = [
+            "https://images.unsplash.com/photo-1565793079266-82f8e6a0073c",
+            "https://images.unsplash.com/photo-1587534774765-84ef7be11179",
+            "https://images.unsplash.com/photo-1565793079266-82f8e6a0073c"
+        ]
 
-            # Generate 15 sample transactions
-            sample_transactions = []
-            for i in range(15):
-                # Random date within the last 12 months
-                days_ago = random.randint(0, 365)
-                transaction_date = datetime.now() - timedelta(days=days_ago)
+        # Sample locations in Utah
+        locations = [
+            "West Valley City, UT",
+            "Salt Lake City, UT",
+            "Sandy, UT",
+            "Murray, UT",
+            "South Jordan, UT"
+        ]
 
-                # Random square footage between 1,200 and 50,000
-                square_feet = random.randint(1200, 50000)
+        # Generate 15 sample transactions
+        sample_transactions = []
+        for i in range(15):
+            # Random date within the last 12 months
+            days_ago = random.randint(0, 365)
+            transaction_date = datetime.now() - timedelta(days=days_ago)
 
-                transaction = Transaction(
-                    property_name=f"Industrial Property {i+1}",
-                    transaction_type=random.choice(['lease', 'sale']),
-                    square_feet=square_feet,
-                    transaction_date=transaction_date,
-                    location=random.choice(locations),
-                    image_url=random.choice(image_urls),
-                    description=f"Successfully completed {square_feet:,} SF industrial property transaction."
-                )
-                sample_transactions.append(transaction)
+            # Random square footage between 1,200 and 50,000
+            square_feet = random.randint(1200, 50000)
 
-            db.session.bulk_save_objects(sample_transactions)
+            transaction = Transaction(
+                property_name=f"Industrial Property {i+1}",
+                transaction_type=random.choice(['lease', 'sale']),
+                square_feet=square_feet,
+                transaction_date=transaction_date,
+                location=random.choice(locations),
+                image_url=random.choice(image_urls),
+                description=f"Successfully completed {square_feet:,} SF industrial property transaction."
+            )
+            sample_transactions.append(transaction)
 
+        db.session.bulk_save_objects(sample_transactions)
+        logger.info("Sample transactions added successfully")
+
+    try:
         db.session.commit()
+        logger.info("All sample data committed successfully")
+    except Exception as e:
+        logger.error(f"Error committing sample data: {str(e)}")
+        db.session.rollback()
+        raise
+
+# Initialize database and sample data
+with app.app_context():
+    db.create_all()
+    init_sample_data()
