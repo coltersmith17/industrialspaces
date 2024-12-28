@@ -83,35 +83,6 @@ def contact():
         return redirect(url_for('contact'))
     return render_template('contact.html')
 
-@app.route('/api/recommend', methods=['POST'])
-def get_recommendations():
-    data = request.get_json()
-    business_type = data.get('business_type')
-    min_square_feet = data.get('min_square_feet')
-    max_square_feet = data.get('max_square_feet')
-
-    if not business_type:
-        return jsonify({'error': 'Business type is required'}), 400
-
-    properties = Property.query.all()
-    recommendations = recommendation_engine.get_recommendations(
-        properties,
-        business_type,
-        min_square_feet,
-        max_square_feet
-    )
-
-    return jsonify({
-        'recommendations': [
-            {
-                'id': r['property'].id,
-                'title': r['property'].title,
-                'score': r['score']
-            }
-            for r in recommendations[:5]  # Return top 5 recommendations
-        ]
-    })
-
 @app.route('/for-lease')
 def for_lease():
     properties = Property.query.filter_by(listing_type='lease').all()
@@ -133,12 +104,11 @@ def transactions():
 
 @app.route('/state-of-market')
 def state_of_market():
-    return render_template('state_of_market.html')
+    return render_template('state-of_market.html')
 
 @app.route('/insights')
 def insights():
     return render_template('insights.html')
-
 
 def init_sample_data():
     """Initialize sample data for the application"""
@@ -180,7 +150,7 @@ def init_sample_data():
                 location="2850 S Redwood Rd West Valley, UT",
                 latitude=40.71643,
                 longitude=-111.93912,
-                image_url="https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd",
+                image_url=url_for('static', filename='images/2850_S_Redwood_Rd_Edit.jpg'),
                 additional_images=[
                     "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
                     "https://images.unsplash.com/photo-1580674684081-7617fbf3d745"
@@ -223,87 +193,6 @@ def init_sample_data():
         ]
         db.session.bulk_save_objects(sample_properties)
         logger.info("Sample properties added successfully")
-
-    # Add sample business type preferences if none exist
-    if not BusinessTypePreference.query.first():
-        logger.info("Adding sample business type preferences...")
-        sample_preferences = [
-            BusinessTypePreference(
-                business_type="manufacturing",
-                min_square_feet=100000,
-                max_square_feet=250000,
-                min_ceiling_height=20.0,
-                min_loading_docks=6,
-                power_requirements="2000A+",
-                preferred_features={"column_spacing": "40' x 40'"},
-                importance_weights={"square_feet": 0.3, "ceiling_height": 0.2, "loading_docks": 0.2, "power": 0.3}
-            ),
-            BusinessTypePreference(
-                business_type="warehousing",
-                min_square_feet=150000,
-                max_square_feet=300000,
-                min_ceiling_height=30.0,
-                min_loading_docks=10,
-                power_requirements="1500A+",
-                preferred_features={"column_spacing": "50' x 50'"},
-                importance_weights={"square_feet": 0.4, "ceiling_height": 0.3, "loading_docks": 0.2, "power": 0.1}
-            ),
-            BusinessTypePreference(
-                business_type="distribution",
-                min_square_feet=125000,
-                max_square_feet=275000,
-                min_ceiling_height=25.0,
-                min_loading_docks=12,
-                power_requirements="2000A+",
-                preferred_features={"column_spacing": "45' x 45'"},
-                importance_weights={"square_feet": 0.3, "ceiling_height": 0.2, "loading_docks": 0.4, "power": 0.1}
-            )
-        ]
-        db.session.bulk_save_objects(sample_preferences)
-        logger.info("Sample business type preferences added successfully")
-
-    # Add sample transactions if none exist
-    if not Transaction.query.first():
-        logger.info("Adding sample transactions...")
-        # Sample image URLs for industrial buildings
-        image_urls = [
-            "https://images.unsplash.com/photo-1565793079266-82f8e6a0073c",
-            "https://images.unsplash.com/photo-1587534774765-84ef7be11179",
-            "https://images.unsplash.com/photo-1565793079266-82f8e6a0073c"
-        ]
-
-        # Sample locations in Utah
-        locations = [
-            "West Valley City, UT",
-            "Salt Lake City, UT",
-            "Sandy, UT",
-            "Murray, UT",
-            "South Jordan, UT"
-        ]
-
-        # Generate 15 sample transactions
-        sample_transactions = []
-        for i in range(15):
-            # Random date within the last 12 months
-            days_ago = random.randint(0, 365)
-            transaction_date = datetime.now() - timedelta(days=days_ago)
-
-            # Random square footage between 1,200 and 50,000
-            square_feet = random.randint(1200, 50000)
-
-            transaction = Transaction(
-                property_name=f"Industrial Property {i+1}",
-                transaction_type=random.choice(['lease', 'sale']),
-                square_feet=square_feet,
-                transaction_date=transaction_date,
-                location=random.choice(locations),
-                image_url=random.choice(image_urls),
-                description=f"Successfully completed {square_feet:,} SF industrial property transaction."
-            )
-            sample_transactions.append(transaction)
-
-        db.session.bulk_save_objects(sample_transactions)
-        logger.info("Sample transactions added successfully")
 
     try:
         db.session.commit()
