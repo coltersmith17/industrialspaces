@@ -156,9 +156,11 @@ def init_sample_data():
                 location="3607 W 2100 S Salt Lake City, UT",
                 latitude=40.72614,
                 longitude=-111.96744,
-                image_url="https://images.unsplash.com/photo-1565077744449-04961a45ec61",
-                additional_images=["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-                                  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
+                image_url="https://images.unsplash.com/photo-1587534774765-84ef7be11179",
+                additional_images=[
+                    "https://images.unsplash.com/photo-1580674684081-7617fbf3d745",
+                    "https://images.unsplash.com/photo-1581578731548-c64695cc6952"
+                ],
                 floorplan_url="https://example.com/floorplans/broadbent.pdf",
                 available_space="Suite A: 5,000 sq ft\nSuite B: 7,500 sq ft\nSuite C: 10,000 sq ft",
                 business_type="manufacturing",
@@ -178,9 +180,11 @@ def init_sample_data():
                 location="2850 S Redwood Rd West Valley, UT",
                 latitude=40.71643,
                 longitude=-111.93912,
-                image_url="https://images.unsplash.com/photo-1664382953403-fc1ac77073a0",
-                additional_images=["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-                                  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"],
+                image_url="https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd",
+                additional_images=[
+                    "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
+                    "https://images.unsplash.com/photo-1580674684081-7617fbf3d745"
+                ],
                 floorplan_url="https://example.com/floorplans/redwood.pdf",
                 available_space="Unit 1: 15,000 sq ft\nUnit 2: 20,000 sq ft",
                 business_type="warehousing",
@@ -200,9 +204,11 @@ def init_sample_data():
                 location="9520 S 500 W Sandy, UT",
                 latitude=40.58764,
                 longitude=-111.90606,
-                image_url="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-                additional_images=["https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-                                  "https://images.unsplash.com/photo-1664382953403-fc1ac77073a0"],
+                image_url="https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd",
+                additional_images=[
+                    "https://images.unsplash.com/photo-1587534774765-84ef7be11179",
+                    "https://images.unsplash.com/photo-1580674684081-7617fbf3d745"
+                ],
                 floorplan_url="https://example.com/floorplans/sandy.pdf",
                 available_space="Building A: 25,000 sq ft\nBuilding B: 30,000 sq ft",
                 business_type="distribution",
