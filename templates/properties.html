@@ -10,26 +10,16 @@
     <div class="card mb-4">
         <div class="card-body">
             <form id="filterForm" class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">Business Type</label>
-                    <select class="form-select" id="businessType" name="business_type">
-                        <option value="">All Types</option>
-                        <option value="manufacturing" {% if business_type == 'manufacturing' %}selected{% endif %}>Manufacturing</option>
-                        <option value="warehousing" {% if business_type == 'warehousing' %}selected{% endif %}>Warehousing</option>
-                        <option value="distribution" {% if business_type == 'distribution' %}selected{% endif %}>Distribution</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label class="form-label">Min Size (sq ft)</label>
                     <input type="number" class="form-control" id="minSize" name="min_square_feet" placeholder="Min Size">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label class="form-label">Max Size (sq ft)</label>
                     <input type="number" class="form-control" id="maxSize" name="max_square_feet" placeholder="Max Size">
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">&nbsp;</label>
-                    <button type="submit" class="btn btn-primary w-100">Find Properties</button>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Find Properties</button>
                 </div>
             </form>
         </div>
@@ -42,29 +32,32 @@
     <div class="row">
         {% for property in properties %}
         <div class="col-md-6 col-lg-4 mb-4">
-<div class="card property-card h-100" 
-     data-price="{{ property.price }}"
-     data-size="{{ property.square_feet }}">
-    <img src="{{ property.image_url }}" class="card-img-top property-image" alt="{{ property.title }}">
-    <div class="card-body">
-        <h5 class="card-title">{{ property.title }}</h5>
-        {% if property.business_type %}
-        <span class="badge bg-info mb-2">{{ property.business_type|title }}</span>
-        {% endif %}
-        <p class="card-text">{{ property.description[:150] }}...</p>
-        <ul class="list-unstyled">
-            <li><i class="fas fa-ruler-combined"></i> {{ property.square_feet_range }}</li>
-            <li><i class="fas fa-arrows-alt-v"></i> Ceiling Height: {{ property.ceiling_height }}ft</li>
-            <li><i class="fas fa-map-marker-alt"></i> {{ property.location }}</li>
-            <li><i class="fas fa-dollar-sign"></i> {{ property.price_display }}</li>
-        </ul>
-    </div>
-    <div class="card-footer bg-white">
-        <a href="{{ url_for('property_detail', slug=property.slug) }}" class="btn btn-outline-primary w-100">View Details</a>
-    </div>
-</div>
+            <div class="card property-card h-100" 
+                data-price="{{ property.price }}"
+                data-size="{{ property.square_feet }}">
+                <img src="{{ property.image_url }}" class="card-img-top property-image" alt="{{ property.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ property.title }}</h5>
+                    <p class="card-text">{{ property.description[:150] }}...</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-ruler-combined"></i> {{ property.square_feet_range }}</li>
+                        <li><i class="fas fa-arrows-alt-v"></i> Clear Height: {{ property.ceiling_height|int }}&#39;</li>
+                        <li><i class="fas fa-map-marker-alt"></i> {{ property.location }}</li>
+                        <li><i class="fas fa-dollar-sign"></i> {{ property.price_display }}</li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="{{ url_for('property_detail', slug=property.slug) }}" class="btn btn-outline-primary w-100">View Details</a>
+                </div>
+            </div>
         </div>
         {% endfor %}
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="mt-5 text-center">
+        <h3>Don't see a property you're looking for?</h3>
+        <p class="lead">Please reach out to us as we have a large industrial market share in Utah and will most likely have an upcoming, confidential or off-market property that will fit your needs</p>
     </div>
 </div>
 
@@ -83,16 +76,13 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     initPropertiesMap(properties);
 
-    // Update form submission to include business type
     const form = document.getElementById('filterForm');
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        const businessType = document.getElementById('businessType').value;
         const minSize = document.getElementById('minSize').value;
         const maxSize = document.getElementById('maxSize').value;
 
         let url = new URL(window.location.href);
-        url.searchParams.set('business_type', businessType);
         if (minSize) url.searchParams.set('min_square_feet', minSize);
         if (maxSize) url.searchParams.set('max_square_feet', maxSize);
 

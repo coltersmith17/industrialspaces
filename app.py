@@ -93,6 +93,13 @@ def state_of_market():
 def insights():
     return render_template('insights.html')
 
+@app.route('/article/<slug>')
+def article_detail(slug):
+    # This is a placeholder route for the article details
+    # In a real application, you would fetch the article from a database
+    return render_template('article_detail.html', slug=slug)
+
+
 def copy_image(source_filename, dest_filename):
     """Helper function to copy images from attached_assets to static/images"""
     source_path = os.path.join('attached_assets', source_filename)
@@ -148,7 +155,7 @@ def init_sample_data():
                     "Unit 3621: 2,568 SF"
                 ),
                 business_type="manufacturing",
-                ceiling_height=32.0,
+                ceiling_height=12.0,
                 loading_docks=12,
                 power_capacity="3000A, 480/277V",
                 column_spacing="40' x 40'",
