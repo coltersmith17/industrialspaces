@@ -126,6 +126,8 @@ def init_sample_data():
     broadbent_image_url = copy_image('broadbentmain.jpg', 'broadbentmain.jpg')
     redwood_image_url = copy_image('redwoodmain.jpg', 'redwoodmain.jpg')
     sandy_image_url = copy_image('sipmain.jpg', 'sipmain.jpg')
+    modern_building_url = copy_image('2400smain.JPG', '2400smain.jpg')
+    power_district_url = copy_image('139s1400wmain.jpg', '139s1400wmain.jpg')
 
     # Add sample properties if none exist
     if not Property.query.first():
@@ -135,7 +137,7 @@ def init_sample_data():
             Property(
                 slug="broadbent",
                 title="Broadbent Business Park",
-                description="Premium industrial space in Salt Lake City's thriving business district",
+                description="Multi-Tenant Industrial Building in the Heart of Salt Lake with a short, 5 minute drive to the Salt Lake City International Airport",
                 square_feet=150000,
                 square_feet_range="1,482 - 3,774 SF",
                 price=1.05,
@@ -174,7 +176,7 @@ def init_sample_data():
             Property(
                 slug="redwood",
                 title="Redwood Business Park",
-                description="Modern industrial complex with excellent accessibility",
+                description="A recently repainted business park, with easy freeway access to Highway 201, I-15, I-215 and a traditional warehouse layout",
                 square_feet=200000,
                 square_feet_range="1,600 - 3,200 SF",
                 price=1.05,
@@ -209,7 +211,7 @@ def init_sample_data():
             Property(
                 slug="sip",
                 title="Sandy Business Park",
-                description="State-of-the-art business park in Sandy's growing commercial district",
+                description="A 5 building Business Park just minutes from I-15 with an 18' Clear Height and 12x12 Ground Level Doors",
                 square_feet=175000,
                 square_feet_range="1,200 SF",
                 price=1.40,
@@ -235,6 +237,40 @@ def init_sample_data():
                     "Clear Height: 18'",
                     "Signage Available",
                     "Additional Office Space"
+                ]
+            ),
+            Property(
+                slug="power-district",
+                title="Power District Warehouse",
+                description="A heavy-powered warehouse adjacent to the future Larry H. Miller Ballpark Development with Seller Financing Available",
+                square_feet=4400,
+                square_feet_range="4,400 SF",
+                price=1200000,
+                price_display="$1,200,000",
+                location="139 S 1400 W Salt Lake City, UT 84107",
+                latitude=40.767,
+                longitude=-111.928,
+                image_url=power_district_url or "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd",
+                additional_images=[],
+                floorplan_url=None,
+                available_space="4,400 SF",
+                business_type=None,
+                ceiling_height=16.0,
+                loading_docks=1,
+                power_capacity="3 Phase 400 Amps",
+                column_spacing="30' x 30'",
+                year_built=1975,
+                is_featured=True,
+                listing_type='sale',
+                property_features=[
+                    "Seller Financing Available",
+                    "Heavy Power: 3 Phase 400 Amps",
+                    "1 - (10x10) GL Door",
+                    "Adjacent to Proposed MLB Stadium",
+                    "Easy Access to I-15, I-215 & I-80",
+                    "Located in an Opportunity Zone",
+                    "Walking Distance to Trax Station",
+                    "Lease Options Available as Well"
                 ]
             )
         ]
