@@ -129,14 +129,21 @@ def init_sample_data():
                 title="Broadbent Business Park",
                 description="Premium industrial space in Salt Lake City's thriving business district",
                 square_feet=150000,
-                price=1.05,
+                price=1.05,  # Updated to $1.05 PSF NNN
                 location="3607 W 2100 S Salt Lake City, UT",
                 latitude=40.72614,
                 longitude=-111.96744,
                 image_url=broadbent_image_url or "https://images.unsplash.com/photo-1587534774765-84ef7be11179",
                 additional_images=[],
                 floorplan_url="https://example.com/floorplans/broadbent.pdf",
-                available_space="Suite A: 5,000 sq ft\nSuite B: 7,500 sq ft\nSuite C: 10,000 sq ft",
+                available_space=(
+                    "Unit 3668: 1,968 SF\n"
+                    "Unit 3673: 1,482 SF\n"
+                    "Unit 3671: 2,292 SF\n"
+                    "Units 3671 & 3673: 3,774 SF\n"
+                    "Unit 3649: 2,026 SF\n"
+                    "Unit 3621: 2,568 SF"
+                ),
                 business_type="manufacturing",
                 ceiling_height=32.0,
                 loading_docks=12,
@@ -150,14 +157,18 @@ def init_sample_data():
                 title="Redwood Business Park",
                 description="Modern industrial complex with excellent accessibility",
                 square_feet=200000,
-                price=1.05,
+                price=1.05,  # Updated to $1.05 PSF NNN
                 location="2850 S Redwood Rd West Valley, UT",
                 latitude=40.71643,
                 longitude=-111.93912,
                 image_url=redwood_image_url or "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd",
                 additional_images=[],
                 floorplan_url="https://example.com/floorplans/redwood.pdf",
-                available_space="Unit 1: 15,000 sq ft\nUnit 2: 20,000 sq ft",
+                available_space=(
+                    "Units B-9/10: 3,200 SF\n"
+                    "Unit C-8: 1,600 SF\n"
+                    "Unit C-12: 1,600 SF"
+                ),
                 business_type="warehousing",
                 ceiling_height=32.0,
                 loading_docks=12,
@@ -171,14 +182,14 @@ def init_sample_data():
                 title="Sandy Business Park",
                 description="State-of-the-art business park in Sandy's growing commercial district",
                 square_feet=175000,
-                price=1.05,
+                price=1.40,  # Updated to $1.40 PSF NNN
                 location="9520 S 500 W Sandy, UT",
                 latitude=40.58764,
                 longitude=-111.90606,
                 image_url=sandy_image_url or "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd",
                 additional_images=[],
                 floorplan_url="https://example.com/floorplans/sandy.pdf",
-                available_space="Building A: 25,000 sq ft\nBuilding B: 30,000 sq ft",
+                available_space="Building C: 1,200 SF",
                 business_type="distribution",
                 ceiling_height=32.0,
                 loading_docks=12,
