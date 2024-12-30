@@ -40,9 +40,9 @@ def properties():
     properties = Property.query.all()
     return render_template('properties.html', properties=properties)
 
-@app.route('/property/<int:id>')
-def property_detail(id):
-    property = Property.query.get_or_404(id)
+@app.route('/property/<slug>')
+def property_detail(slug):
+    property = Property.query.filter_by(slug=slug).first_or_404()
     return render_template('property_detail.html', property=property)
 
 @app.route('/about')
@@ -126,10 +126,13 @@ def init_sample_data():
 
         sample_properties = [
             Property(
+                slug="broadbent",
                 title="Broadbent Business Park",
                 description="Premium industrial space in Salt Lake City's thriving business district",
                 square_feet=150000,
-                price=1.05,  # Updated to $1.05 PSF NNN
+                square_feet_range="1,482 - 3,774 SF",
+                price=1.05,
+                price_display="$1.05 PSF NNN",
                 location="3607 W 2100 S Salt Lake City, UT",
                 latitude=40.72614,
                 longitude=-111.96744,
@@ -151,13 +154,24 @@ def init_sample_data():
                 column_spacing="40' x 40'",
                 year_built=2015,
                 is_featured=True,
-                listing_type='lease'
+                listing_type='lease',
+                property_features=[
+                    "Industrial & Manufacturing Warehouse Space",
+                    "(1) 10x10 GL Door Per Unit",
+                    "Ample Parking",
+                    "5 Minutes to SLC International Airport",
+                    "Additional Office / Retail Spaces Available",
+                    "Signage Available"
+                ]
             ),
             Property(
+                slug="redwood",
                 title="Redwood Business Park",
                 description="Modern industrial complex with excellent accessibility",
                 square_feet=200000,
-                price=1.05,  # Updated to $1.05 PSF NNN
+                square_feet_range="1,600 - 3,200 SF",
+                price=1.05,
+                price_display="$1.05 PSF NNN",
                 location="2850 S Redwood Rd West Valley, UT",
                 latitude=40.71643,
                 longitude=-111.93912,
@@ -170,19 +184,29 @@ def init_sample_data():
                     "Unit C-12: 1,600 SF"
                 ),
                 business_type="warehousing",
-                ceiling_height=32.0,
+                ceiling_height=12.0,
                 loading_docks=12,
                 power_capacity="3000A, 480/277V",
                 column_spacing="50' x 50'",
                 year_built=2018,
                 is_featured=True,
-                listing_type='lease'
+                listing_type='lease',
+                property_features=[
+                    "(1) 10x10 Ground Level Door Per Unit",
+                    "12' Clear Height",
+                    "Redwood Road Frontage",
+                    "Easy Highway Access",
+                    "Signage Available"
+                ]
             ),
             Property(
+                slug="sip",
                 title="Sandy Business Park",
                 description="State-of-the-art business park in Sandy's growing commercial district",
                 square_feet=175000,
-                price=1.40,  # Updated to $1.40 PSF NNN
+                square_feet_range="1,200 SF",
+                price=1.40,
+                price_display="$1.40 PSF NNN",
                 location="9520 S 500 W Sandy, UT",
                 latitude=40.58764,
                 longitude=-111.90606,
@@ -191,13 +215,20 @@ def init_sample_data():
                 floorplan_url="https://example.com/floorplans/sandy.pdf",
                 available_space="Building C: 1,200 SF",
                 business_type="distribution",
-                ceiling_height=32.0,
+                ceiling_height=18.0,
                 loading_docks=12,
                 power_capacity="3000A, 480/277V",
                 column_spacing="45' x 45'",
                 year_built=2020,
                 is_featured=True,
-                listing_type='lease'
+                listing_type='lease',
+                property_features=[
+                    "(1) 12x12 GL Door Per Unit",
+                    "3 Phase Power*",
+                    "Clear Height: 18'",
+                    "Signage Available",
+                    "Additional Office Space"
+                ]
             )
         ]
         db.session.bulk_save_objects(sample_properties)

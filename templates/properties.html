@@ -42,29 +42,27 @@
     <div class="row">
         {% for property in properties %}
         <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card property-card h-100" 
-                 data-price="{{ property.price }}"
-                 data-size="{{ property.square_feet }}">
-                <img src="{{ property.image_url }}" class="card-img-top property-image" alt="{{ property.title }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ property.title }}</h5>
-                    {% if property.business_type %}
-                    <span class="badge bg-info mb-2">{{ property.business_type|title }}</span>
-                    {% endif %}
-                    <p class="card-text">{{ property.description[:150] }}...</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-ruler-combined"></i> {{ "{:,.0f}".format(property.square_feet) }} sq ft</li>
-                        <li><i class="fas fa-arrows-alt-v"></i> Ceiling Height: {{ property.ceiling_height }}ft</li>
-                        <li><i class="fas fa-truck-loading"></i> Loading Docks: {{ property.loading_docks }}</li>
-                        <li><i class="fas fa-bolt"></i> Power: {{ property.power_capacity }}</li>
-                        <li><i class="fas fa-map-marker-alt"></i> {{ property.location }}</li>
-                        <li><i class="fas fa-dollar-sign"></i> {{ "{:,.0f}".format(property.price) }}</li>
-                    </ul>
-                </div>
-                <div class="card-footer bg-white">
-                    <a href="{{ url_for('property_detail', id=property.id) }}" class="btn btn-outline-primary w-100">View Details</a>
-                </div>
-            </div>
+<div class="card property-card h-100" 
+     data-price="{{ property.price }}"
+     data-size="{{ property.square_feet }}">
+    <img src="{{ property.image_url }}" class="card-img-top property-image" alt="{{ property.title }}">
+    <div class="card-body">
+        <h5 class="card-title">{{ property.title }}</h5>
+        {% if property.business_type %}
+        <span class="badge bg-info mb-2">{{ property.business_type|title }}</span>
+        {% endif %}
+        <p class="card-text">{{ property.description[:150] }}...</p>
+        <ul class="list-unstyled">
+            <li><i class="fas fa-ruler-combined"></i> {{ property.square_feet_range }}</li>
+            <li><i class="fas fa-arrows-alt-v"></i> Ceiling Height: {{ property.ceiling_height }}ft</li>
+            <li><i class="fas fa-map-marker-alt"></i> {{ property.location }}</li>
+            <li><i class="fas fa-dollar-sign"></i> {{ property.price_display }}</li>
+        </ul>
+    </div>
+    <div class="card-footer bg-white">
+        <a href="{{ url_for('property_detail', slug=property.slug) }}" class="btn btn-outline-primary w-100">View Details</a>
+    </div>
+</div>
         </div>
         {% endfor %}
     </div>

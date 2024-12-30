@@ -3,10 +3,13 @@ from datetime import datetime
 
 class Property(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    slug = db.Column(db.String(100), unique=True, nullable=False)  # Added for URL friendly names
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=False)
+    square_feet_range = db.Column(db.String(100))  # Added for range display
     square_feet = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
+    price_display = db.Column(db.String(50))  # Added for formatted price display
     location = db.Column(db.String(200), nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
