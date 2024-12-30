@@ -37,24 +37,8 @@ def index():
 
 @app.route('/properties')
 def properties():
-    business_type = request.args.get('business_type')
-    min_square_feet = request.args.get('min_square_feet', type=int)
-    max_square_feet = request.args.get('max_square_feet', type=int)
-
     properties = Property.query.all()
-
-    if business_type:
-        recommended = recommendation_engine.get_recommendations(
-            properties,
-            business_type,
-            min_square_feet,
-            max_square_feet
-        )
-        properties = [r['property'] for r in recommended]
-
-    return render_template('properties.html', 
-                         properties=properties,
-                         business_type=business_type)
+    return render_template('properties.html', properties=properties)
 
 @app.route('/property/<int:id>')
 def property_detail(id):
@@ -112,10 +96,11 @@ def insights():
 def copy_image(source_filename, dest_filename):
     """Helper function to copy images from attached_assets to static/images"""
     source_path = os.path.join('attached_assets', source_filename)
-    dest_path = os.path.join(app.static_folder, 'images', dest_filename)
+    dest_path = os.path.join('static', 'images', dest_filename)
 
     try:
         if os.path.exists(source_path):
+            os.makedirs(os.path.dirname(dest_path), exist_ok=True)
             shutil.copy2(source_path, dest_path)
             logger.info(f"Successfully copied image from {source_path} to {dest_path}")
             return f'/static/images/{dest_filename}'
@@ -130,16 +115,10 @@ def init_sample_data():
     """Initialize sample data for the application"""
     logger.info("Initializing sample data...")
 
-    # Set up static image directory if it doesn't exist
-    static_img_dir = os.path.join(app.static_folder, 'images')
-    if not os.path.exists(static_img_dir):
-        os.makedirs(static_img_dir)
-        logger.info(f"Created static images directory: {static_img_dir}")
-
     # Copy all business park images
-    broadbent_image_url = copy_image('broadbentmain.jpg', 'broadbentmain.jpg') or "https://images.unsplash.com/photo-1587534774765-84ef7be11179"
-    redwood_image_url = copy_image('redwoodmain.jpg', 'redwoodmain.jpg') or "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
-    sandy_image_url = copy_image('sipmain.jpg', 'sipmain.jpg') or "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
+    broadbent_image_url = copy_image('broadbentmain.jpg', 'broadbentmain.jpg')
+    redwood_image_url = copy_image('redwoodmain.jpg', 'redwoodmain.jpg')
+    sandy_image_url = copy_image('sipmain.jpg', 'sipmain.jpg')
 
     # Add sample properties if none exist
     if not Property.query.first():
@@ -154,11 +133,8 @@ def init_sample_data():
                 location="3607 W 2100 S Salt Lake City, UT",
                 latitude=40.72614,
                 longitude=-111.96744,
-                image_url=broadbent_image_url,
-                additional_images=[
-                    "https://images.unsplash.com/photo-1580674684081-7617fbf3d745",
-                    "https://images.unsplash.com/photo-1581578731548-c64695cc6952"
-                ],
+                image_url=broadbent_image_url or "https://images.unsplash.com/photo-1587534774765-84ef7be11179",
+                additional_images=[],
                 floorplan_url="https://example.com/floorplans/broadbent.pdf",
                 available_space="Suite A: 5,000 sq ft\nSuite B: 7,500 sq ft\nSuite C: 10,000 sq ft",
                 business_type="manufacturing",
@@ -178,11 +154,8 @@ def init_sample_data():
                 location="2850 S Redwood Rd West Valley, UT",
                 latitude=40.71643,
                 longitude=-111.93912,
-                image_url=redwood_image_url,
-                additional_images=[
-                    "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
-                    "https://images.unsplash.com/photo-1580674684081-7617fbf3d745"
-                ],
+                image_url=redwood_image_url or "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd",
+                additional_images=[],
                 floorplan_url="https://example.com/floorplans/redwood.pdf",
                 available_space="Unit 1: 15,000 sq ft\nUnit 2: 20,000 sq ft",
                 business_type="warehousing",
@@ -202,11 +175,8 @@ def init_sample_data():
                 location="9520 S 500 W Sandy, UT",
                 latitude=40.58764,
                 longitude=-111.90606,
-                image_url=sandy_image_url,
-                additional_images=[
-                    "https://images.unsplash.com/photo-1587534774765-84ef7be11179",
-                    "https://images.unsplash.com/photo-1580674684081-7617fbf3d745"
-                ],
+                image_url=sandy_image_url or "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd",
+                additional_images=[],
                 floorplan_url="https://example.com/floorplans/sandy.pdf",
                 available_space="Building A: 25,000 sq ft\nBuilding B: 30,000 sq ft",
                 business_type="distribution",
