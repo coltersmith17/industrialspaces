@@ -109,6 +109,23 @@ def state_of_market():
 def insights():
     return render_template('insights.html')
 
+def copy_image(source_filename, dest_filename):
+    """Helper function to copy images from attached_assets to static/images"""
+    source_path = os.path.join('attached_assets', source_filename)
+    dest_path = os.path.join(app.static_folder, 'images', dest_filename)
+
+    try:
+        if os.path.exists(source_path):
+            shutil.copy2(source_path, dest_path)
+            logger.info(f"Successfully copied image from {source_path} to {dest_path}")
+            return f'/static/images/{dest_filename}'
+        else:
+            logger.error(f"Source image not found: {source_path}")
+            return None
+    except Exception as e:
+        logger.error(f"Error copying image {source_filename}: {str(e)}")
+        return None
+
 def init_sample_data():
     """Initialize sample data for the application"""
     logger.info("Initializing sample data...")
@@ -119,21 +136,10 @@ def init_sample_data():
         os.makedirs(static_img_dir)
         logger.info(f"Created static images directory: {static_img_dir}")
 
-    # Copy the Redwood Business Park image from attached assets to static folder
-    source_image = 'attached_assets/2850 S Redwood Rd Edit.jpg'
-    dest_image = os.path.join(static_img_dir, '2850_S_Redwood_Rd_Edit.jpg')
-
-    try:
-        if os.path.exists(source_image):
-            shutil.copy2(source_image, dest_image)
-            logger.info(f"Successfully copied image from {source_image} to {dest_image}")
-            redwood_image_url = '/static/images/2850_S_Redwood_Rd_Edit.jpg'
-        else:
-            logger.error(f"Source image not found: {source_image}")
-            redwood_image_url = "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
-    except Exception as e:
-        logger.error(f"Error copying image: {str(e)}")
-        redwood_image_url = "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
+    # Copy all business park images
+    broadbent_image_url = copy_image('broadbentmain.jpg', 'broadbentmain.jpg') or "https://images.unsplash.com/photo-1587534774765-84ef7be11179"
+    redwood_image_url = copy_image('redwoodmain.jpg', 'redwoodmain.jpg') or "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
+    sandy_image_url = copy_image('sipmain.jpg', 'sipmain.jpg') or "https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd"
 
     # Add sample properties if none exist
     if not Property.query.first():
@@ -148,7 +154,7 @@ def init_sample_data():
                 location="3607 W 2100 S Salt Lake City, UT",
                 latitude=40.72614,
                 longitude=-111.96744,
-                image_url="https://images.unsplash.com/photo-1587534774765-84ef7be11179",
+                image_url=broadbent_image_url,
                 additional_images=[
                     "https://images.unsplash.com/photo-1580674684081-7617fbf3d745",
                     "https://images.unsplash.com/photo-1581578731548-c64695cc6952"
@@ -196,7 +202,7 @@ def init_sample_data():
                 location="9520 S 500 W Sandy, UT",
                 latitude=40.58764,
                 longitude=-111.90606,
-                image_url="https://images.unsplash.com/photo-1565793979436-5a9844c3d0dd",
+                image_url=sandy_image_url,
                 additional_images=[
                     "https://images.unsplash.com/photo-1587534774765-84ef7be11179",
                     "https://images.unsplash.com/photo-1580674684081-7617fbf3d745"
